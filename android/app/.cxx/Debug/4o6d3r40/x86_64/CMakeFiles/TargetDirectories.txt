@@ -1,0 +1,2 @@
+D:/Desktop/PROJECT/fusion_app_new/android/app/.cxx/Debug/4o6d3r40/x86_64/CMakeFiles/edit_cache.dir
+D:/Desktop/PROJECT/fusion_app_new/android/app/.cxx/Debug/4o6d3r40/x86_64/CMakeFiles/rebuild_cache.dir
