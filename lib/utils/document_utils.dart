@@ -1,10 +1,7 @@
 import 'dart:io';
-import 'dart:typed_data';
 import 'package:excel/excel.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
-import 'package:syncfusion_flutter_pdf/pdf.dart' as sfpdf;
 import 'package:syncfusion_flutter_xlsio/xlsio.dart' as xlsio;
 import 'file_utils.dart';
 
@@ -17,7 +14,7 @@ class DocumentUtils {
   }) async {
     final pdf = pw.Document();
     await builder(pdf);
-    
+
     final bytes = await pdf.save();
     final fullFileName = FileUtils.generateFileName(fileName, 'pdf');
     return FileUtils.saveModuleFile(section, fullFileName, bytes);
@@ -44,7 +41,8 @@ class DocumentUtils {
                 children: [
                   pw.Header(
                     level: 0,
-                    child: pw.Text('Grade Sheet', style: const pw.TextStyle(fontSize: 24)),
+                    child: pw.Text('Grade Sheet',
+                        style: const pw.TextStyle(fontSize: 24)),
                   ),
                   pw.SizedBox(height: 20),
                   pw.Text('Student Name: $studentName'),
@@ -54,11 +52,13 @@ class DocumentUtils {
                   pw.SizedBox(height: 20),
                   pw.Table.fromTextArray(
                     headers: ['Subject', 'Grade', 'Credits'],
-                    data: grades.map((grade) => [
-                      grade['subject'],
-                      grade['grade'],
-                      grade['credits'].toString(),
-                    ]).toList(),
+                    data: grades
+                        .map((grade) => [
+                              grade['subject'],
+                              grade['grade'],
+                              grade['credits'].toString(),
+                            ])
+                        .toList(),
                   ),
                 ],
               );
@@ -70,10 +70,11 @@ class DocumentUtils {
   }
 
   /// Read Excel file and parse grades
-  static Future<List<Map<String, dynamic>>> parseGradesFromExcel(String filePath) async {
+  static Future<List<Map<String, dynamic>>> parseGradesFromExcel(
+      String filePath) async {
     final bytes = await File(filePath).readAsBytes();
     final excel = Excel.decodeBytes(bytes);
-    
+
     final List<Map<String, dynamic>> grades = [];
     for (var table in excel.tables.keys) {
       final sheet = excel.tables[table]!;
@@ -99,20 +100,20 @@ class DocumentUtils {
   }) async {
     final workbook = xlsio.Workbook();
     final sheet = workbook.worksheets[0];
-    
+
     // Add headers
     sheet.getRangeByIndex(1, 1).setText('Subject');
     sheet.getRangeByIndex(1, 2).setText('Grade');
     sheet.getRangeByIndex(1, 3).setText('Credits');
-    
+
     // Add subjects
     for (var i = 0; i < subjects.length; i++) {
       sheet.getRangeByIndex(i + 2, 1).setText(subjects[i]);
     }
-    
+
     final bytes = workbook.saveAsStream();
     workbook.dispose();
-    
+
     final fileName = FileUtils.generateFileName(
       'grade_template_${course}_$semester',
       'xlsx',
@@ -131,7 +132,8 @@ class DocumentUtils {
     }
   }
 
-  static Future<List<Map<String, dynamic>>> parseTranscriptData(String filePath) async {
+  static Future<List<Map<String, dynamic>>> parseTranscriptData(
+      String filePath) async {
     final bytes = File(filePath).readAsBytesSync();
     final excel = Excel.decodeBytes(bytes);
     final sheet = excel.tables.values.first;
@@ -139,7 +141,8 @@ class DocumentUtils {
     final List<Map<String, dynamic>> semesters = [];
     Map<String, dynamic>? currentSemester;
 
-    for (var row in sheet.rows.skip(1)) { // Skip header row
+    for (var row in sheet.rows.skip(1)) {
+      // Skip header row
       final semester = row[0]?.value?.toString();
       if (semester != null && semester.isNotEmpty) {
         if (currentSemester != null) {
@@ -151,7 +154,8 @@ class DocumentUtils {
         };
       }
 
-      if (currentSemester != null && row[1]?.value?.toString().isNotEmpty == true) {
+      if (currentSemester != null &&
+          row[1]?.value?.toString().isNotEmpty == true) {
         currentSemester['subjects'].add({
           'name': row[1]?.value?.toString() ?? '',
           'credits': row[2]?.value?.toString() ?? '',
@@ -173,16 +177,22 @@ class DocumentUtils {
     final sheet = excel['Sheet1'];
 
     // Add headers
-    sheet.cell(CellIndex.indexByColumnRow(columnIndex: 0, rowIndex: 0)).value = 'Semester';
-    sheet.cell(CellIndex.indexByColumnRow(columnIndex: 1, rowIndex: 0)).value = 'Subject';
-    sheet.cell(CellIndex.indexByColumnRow(columnIndex: 2, rowIndex: 0)).value = 'Credits';
-    sheet.cell(CellIndex.indexByColumnRow(columnIndex: 3, rowIndex: 0)).value = 'Grade';
+    sheet.cell(CellIndex.indexByColumnRow(columnIndex: 0, rowIndex: 0)).value =
+        'Semester';
+    sheet.cell(CellIndex.indexByColumnRow(columnIndex: 1, rowIndex: 0)).value =
+        'Subject';
+    sheet.cell(CellIndex.indexByColumnRow(columnIndex: 2, rowIndex: 0)).value =
+        'Credits';
+    sheet.cell(CellIndex.indexByColumnRow(columnIndex: 3, rowIndex: 0)).value =
+        'Grade';
 
     // Example data
     int currentRow = 1;
     for (int semester = 1; semester <= 8; semester++) {
-      sheet.cell(CellIndex.indexByColumnRow(columnIndex: 0, rowIndex: currentRow)).value =
-          semester.toString();
+      sheet
+          .cell(
+              CellIndex.indexByColumnRow(columnIndex: 0, rowIndex: currentRow))
+          .value = semester.toString();
       currentRow += 6; // Space for 5 subjects per semester
     }
 
@@ -217,7 +227,8 @@ class DocumentUtils {
               pw.Header(
                 level: 0,
                 child: pw.Text('Academic Transcript',
-                    style: pw.TextStyle(fontSize: 20, fontWeight: pw.FontWeight.bold)),
+                    style: pw.TextStyle(
+                        fontSize: 20, fontWeight: pw.FontWeight.bold)),
               ),
               pw.SizedBox(height: 20),
               pw.Text('Student Name: $studentName'),
@@ -242,7 +253,8 @@ class DocumentUtils {
                             pw.Text('Grade'),
                           ],
                         ),
-                        ...(semester['subjects'] as List<Map<String, dynamic>>).map((subject) {
+                        ...(semester['subjects'] as List<Map<String, dynamic>>)
+                            .map((subject) {
                           return pw.TableRow(
                             children: [
                               pw.Text(subject['name']),
@@ -270,4 +282,4 @@ class DocumentUtils {
     );
     return FileUtils.saveModuleFile('Transcripts', fileName, bytes);
   }
-} 
+}

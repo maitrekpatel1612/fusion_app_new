@@ -4,10 +4,10 @@ class TranscriptListScreen extends StatefulWidget {
   const TranscriptListScreen({super.key});
 
   @override
-  _TranscriptListScreenState createState() => _TranscriptListScreenState();
+  TranscriptListScreenState createState() => TranscriptListScreenState();
 }
 
-class _TranscriptListScreenState extends State<TranscriptListScreen> {
+class TranscriptListScreenState extends State<TranscriptListScreen> {
   final List<Map<String, dynamic>> _studentsData = [
     {
       'studentId': '22BCS184',
@@ -181,12 +181,13 @@ class _TranscriptListScreenState extends State<TranscriptListScreen> {
                   decoration: BoxDecoration(
                     border: Border(
                       bottom: BorderSide(
-                        color: Colors.grey.withOpacity(0.2),
+                        color: Colors.grey.withAlpha(128),
                       ),
                     ),
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 12),
                     child: Row(
                       children: [
                         Expanded(
@@ -208,7 +209,8 @@ class _TranscriptListScreenState extends State<TranscriptListScreen> {
                           child: Row(
                             children: [
                               TextButton.icon(
-                                onPressed: () => _previewTranscript(student['studentId']),
+                                onPressed: () =>
+                                    _previewTranscript(student['studentId']),
                                 icon: const Icon(Icons.visibility, size: 16),
                                 label: const Text('Preview'),
                                 style: TextButton.styleFrom(
@@ -216,7 +218,8 @@ class _TranscriptListScreenState extends State<TranscriptListScreen> {
                                 ),
                               ),
                               TextButton.icon(
-                                onPressed: () => _downloadTranscript(student['studentId']),
+                                onPressed: () =>
+                                    _downloadTranscript(student['studentId']),
                                 icon: const Icon(Icons.download, size: 16),
                                 label: const Text('Download'),
                                 style: TextButton.styleFrom(
@@ -255,4 +258,4 @@ class _TranscriptListScreenState extends State<TranscriptListScreen> {
       ),
     );
   }
-} 
+}

@@ -5,16 +5,19 @@ import 'package:intl/intl.dart';
 
 class AnnouncementWidget extends StatelessWidget {
   final Announcement announcement;
+  final String formattedDate;
 
-  const AnnouncementWidget({super.key, required this.announcement});
+  AnnouncementWidget({
+    super.key,
+    required this.announcement,
+  }) : formattedDate = DateFormat.yMMMd().format(announcement.date);
 
   @override
   Widget build(BuildContext context) {
-    final formattedDate = DateFormat.yMMMd().format(announcement.date);
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: ListTile(
-        title: const Text(announcement.title),
+        title: Text(announcement.title),
         subtitle: Text(
             '${announcement.department} - ${announcement.programme}\n$formattedDate'),
         isThreeLine: true,
@@ -29,7 +32,7 @@ class AnnouncementWidget extends StatelessWidget {
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        title: const Text(announcement.title),
+        title: Text(announcement.title),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,

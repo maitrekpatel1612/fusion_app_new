@@ -1,7 +1,7 @@
 // lib/examination/common/role_based_widget.dart
 import 'package:flutter/material.dart';
 
-enum UserRole { Admin, Dean, Student }
+enum UserRole { admin, dean, student }
 
 class RoleBasedWidget extends StatelessWidget {
   final UserRole userRole;
@@ -20,14 +20,16 @@ class RoleBasedWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     switch (userRole) {
-      case UserRole.Admin:
+      case UserRole.admin:
         return adminWidget;
-      case UserRole.Dean:
+      case UserRole.dean:
         return deanWidget;
-      case UserRole.Student:
+      case UserRole.student:
         return studentWidget;
-      default:
-        return Container();
     }
   }
 }
+
+const String admin = 'admin';
+const String dean = 'dean';
+const String student = 'student';

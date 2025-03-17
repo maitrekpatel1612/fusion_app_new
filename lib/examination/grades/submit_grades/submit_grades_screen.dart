@@ -20,7 +20,16 @@ class _SubmitGradesScreenState extends State<SubmitGradesScreen> {
   List<Map<String, dynamic>>? _parsedGrades;
 
   final List<String> _courses = ['B.Tech CSE', 'B.Tech ECE', 'B.Tech ME'];
-  final List<String> _semesters = ['1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th'];
+  final List<String> _semesters = [
+    '1st',
+    '2nd',
+    '3rd',
+    '4th',
+    '5th',
+    '6th',
+    '7th',
+    '8th'
+  ];
 
   Future<void> _pickFile() async {
     try {
@@ -59,7 +68,8 @@ class _SubmitGradesScreenState extends State<SubmitGradesScreen> {
 
     setState(() => _isLoading = true);
     try {
-      final grades = await DocumentUtils.parseGradesFromExcel(_selectedFilePath!);
+      final grades =
+          await DocumentUtils.parseGradesFromExcel(_selectedFilePath!);
       setState(() => _parsedGrades = grades);
     } catch (e) {
       if (mounted) {
@@ -82,13 +92,17 @@ class _SubmitGradesScreenState extends State<SubmitGradesScreen> {
 
     setState(() => _isLoading = true);
     try {
-      final subjects = ['Mathematics', 'Physics', 'Chemistry']; // Replace with actual subjects
+      final subjects = [
+        'Mathematics',
+        'Physics',
+        'Chemistry'
+      ]; // Replace with actual subjects
       final file = await DocumentUtils.generateGradeTemplate(
         course: _selectedCourse!,
         semester: _selectedSemester!,
         subjects: subjects,
       );
-      
+
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Template saved to: ${file.path}')),
@@ -106,13 +120,16 @@ class _SubmitGradesScreenState extends State<SubmitGradesScreen> {
     }
   }
 
-  Future<void> _submitGrades() async {
+  void _submitGrades() async {
+    if (!mounted) return;
+    final context = this.context; // Store context before async gap
+
     if (!_formKey.currentState!.validate() || _parsedGrades == null) return;
 
     setState(() => _isLoading = true);
     try {
       // TODO: Add API call to submit grades
-      
+
       // Generate PDF gradesheet
       final file = await DocumentUtils.generateGradesheet(
         studentName: 'Deepansud Kumari',
@@ -122,19 +139,17 @@ class _SubmitGradesScreenState extends State<SubmitGradesScreen> {
         grades: _parsedGrades!,
       );
 
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Grades submitted successfully')),
-        );
-        await FileUtils.openFile(file.path);
-        Navigator.pop(context);
-      }
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Grades submitted successfully')),
+      );
+      await FileUtils.openFile(file.path);
+      Navigator.pop(context);
     } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error submitting grades: $e')),
-        );
-      }
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error submitting grades: $e')),
+      );
     } finally {
       setState(() => _isLoading = false);
     }
@@ -270,4 +285,4 @@ class _SubmitGradesScreenState extends State<SubmitGradesScreen> {
       ),
     );
   }
-} 
+}

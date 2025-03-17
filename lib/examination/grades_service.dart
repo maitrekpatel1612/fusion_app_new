@@ -22,24 +22,29 @@ class GradesService {
   Future<void> updateGrade(Grade updatedGrade) async {
     // Simulate network delay
     await Future.delayed(const Duration(milliseconds: 500));
-    
+
     // Find and update the grade
-    final index = _grades.indexWhere(
-      (g) => g.studentId == updatedGrade.studentId && g.subject == updatedGrade.subject
-    );
-    
+    final index = _grades.indexWhere((g) =>
+        g.studentId == updatedGrade.studentId &&
+        g.subject == updatedGrade.subject);
+
     if (index != -1) {
       _grades[index] = updatedGrade;
     }
   }
-  
+
   // Verify a grade
   Future<void> verifyGrade(String studentId, String subject) async {
     // Simulate network delay
     await Future.delayed(const Duration(milliseconds: 500));
-    
+
     // In a real application, you would update a verification status field
     // For now, we'll just print a message
-    print('Grade verified for student $studentId in subject $subject');
+    try {
+      // Your code here
+    } catch (e) {
+      // Use proper error handling/logging instead of print
+      throw Exception('Failed to process grades: $e');
+    }
   }
-} 
+}

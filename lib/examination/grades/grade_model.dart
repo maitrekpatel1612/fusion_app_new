@@ -6,7 +6,7 @@ class Grade {
   final String grade;
   final String programme;
   final String department;
-  final int semester;
+  final String semester;
 
   Grade({
     required this.studentId,

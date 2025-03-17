@@ -50,9 +50,9 @@ class SidebarMenu extends StatelessWidget {
                   Icons.shopping_cart_outlined,
                   () {},
                 ),
-                
+
                 const SizedBox(height: 16),
-                
+
                 // EXAMINATION section
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 24, vertical: 8),
@@ -87,7 +87,8 @@ class SidebarMenu extends StatelessWidget {
                     context,
                     'Submit Grades',
                     Icons.assignment_outlined,
-                    () => Navigator.pushNamed(context, '/examination/submitGrades'),
+                    () => Navigator.pushNamed(
+                        context, '/examination/submitGrades'),
                   ),
                 ),
                 Padding(
@@ -96,7 +97,8 @@ class SidebarMenu extends StatelessWidget {
                     context,
                     'Verify Grades',
                     Icons.verified_outlined,
-                    () => Navigator.pushNamed(context, '/examination/verifyGrades'),
+                    () => Navigator.pushNamed(
+                        context, '/examination/verifyGrades'),
                   ),
                 ),
                 Padding(
@@ -105,12 +107,13 @@ class SidebarMenu extends StatelessWidget {
                     context,
                     'Generate Transcript',
                     Icons.description_outlined,
-                    () => Navigator.pushNamed(context, '/examination/generateTranscript'),
+                    () => Navigator.pushNamed(
+                        context, '/examination/generateTranscript'),
                   ),
                 ),
-                
+
                 const Divider(height: 32),
-                
+
                 // SETTINGS section
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 24, vertical: 8),
@@ -162,18 +165,14 @@ class SidebarMenu extends StatelessWidget {
     VoidCallback onTap, {
     bool isHighlighted = false,
   }) {
-    final Color backgroundColor = isHighlighted 
-        ? Colors.blue.withOpacity(0.1) 
-        : Colors.transparent;
-    
-    final Color iconColor = isHighlighted 
-        ? Colors.blue 
-        : Colors.grey;
-    
-    final Color textColor = isHighlighted 
-        ? Colors.blue 
-        : Colors.black;
-    
+    final Color backgroundColor =
+        isHighlighted ? Colors.blue.withAlpha(128) : Colors.transparent;
+
+    final Color iconColor =
+        isHighlighted ? Colors.blue : Colors.grey.withAlpha(128);
+
+    final Color textColor = isHighlighted ? Colors.blue : Colors.black;
+
     return Container(
       color: backgroundColor,
       child: ListTile(
@@ -191,4 +190,4 @@ class SidebarMenu extends StatelessWidget {
       ),
     );
   }
-} 
+}

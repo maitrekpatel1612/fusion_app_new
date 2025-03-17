@@ -17,13 +17,12 @@ class AnnouncementService {
     try {
       final prefs = await SharedPreferences.getInstance();
       final String? storedData = prefs.getString(_storageKey);
-      
+
       if (storedData == null) return [];
-      
+
       final List<dynamic> jsonList = json.decode(storedData);
       return jsonList.map((json) => Announcement.fromJson(json)).toList();
     } catch (e) {
-      print('Error fetching announcements: $e');
       return [];
     }
   }
@@ -33,16 +32,16 @@ class AnnouncementService {
     try {
       final prefs = await SharedPreferences.getInstance();
       final String? storedData = prefs.getString(_storageKey);
-      
+
       List<Map<String, dynamic>> announcements = [];
       if (storedData != null) {
-        announcements = List<Map<String, dynamic>>.from(json.decode(storedData));
+        announcements =
+            List<Map<String, dynamic>>.from(json.decode(storedData));
       }
-      
+
       announcements.insert(0, announcement.toJson());
       await prefs.setString(_storageKey, json.encode(announcements));
     } catch (e) {
-      print('Error creating announcement: $e');
       throw Exception('Failed to create announcement');
     }
   }
