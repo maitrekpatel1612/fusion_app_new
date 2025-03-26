@@ -12,7 +12,7 @@ class SubmitGradesController {
     required String grade,
     required String programme,
     required String department,
-    required int semester,
+    required String semester,
   }) async {
     // Create a new Grade instance
     Grade newGrade = Grade(

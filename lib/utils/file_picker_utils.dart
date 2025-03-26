@@ -4,7 +4,8 @@ import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class FilePickerUtils {
-  static Future<String?> pickFile(BuildContext context, {List<String>? allowedExtensions}) async {
+  static Future<String?> pickFile(BuildContext context,
+      {List<String>? allowedExtensions}) async {
     final status = await Permission.storage.request();
     if (!status.isGranted) {
       throw Exception('Storage permission not granted');
@@ -12,7 +13,8 @@ class FilePickerUtils {
 
     final result = await showDialog<String>(
       context: context,
-      builder: (context) => _FilePickerDialog(allowedExtensions: allowedExtensions),
+      builder: (context) =>
+          _FilePickerDialog(allowedExtensions: allowedExtensions),
     );
 
     return result;
@@ -40,11 +42,13 @@ class _FilePickerDialogState extends State<_FilePickerDialog> {
   }
 
   Future<void> _loadFiles() async {
+    if (!mounted) return;
     setState(() => _isLoading = true);
     try {
       if (_currentDirectory == null) {
         final externalDir = await getExternalStorageDirectory();
-        _currentDirectory = Directory(externalDir?.path ?? '/storage/emulated/0');
+        _currentDirectory =
+            Directory(externalDir?.path ?? '/storage/emulated/0');
       }
       _files = await _currentDirectory!.list().toList();
       _files.sort((a, b) {
@@ -96,7 +100,8 @@ class _FilePickerDialogState extends State<_FilePickerDialog> {
                     ListTile(
                       leading: const Icon(Icons.folder),
                       title: const Text('..'),
-                      onTap: () => _navigateToDirectory(_currentDirectory!.parent),
+                      onTap: () =>
+                          _navigateToDirectory(_currentDirectory!.parent),
                     ),
                   Expanded(
                     child: ListView.builder(
@@ -143,4 +148,4 @@ class _FilePickerDialogState extends State<_FilePickerDialog> {
       ],
     );
   }
-} 
+}

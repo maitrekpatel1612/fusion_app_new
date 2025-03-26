@@ -8,7 +8,7 @@ class TranscriptController {
   Future<List<Transcript>> getTranscripts({
     String? programme,
     String? department,
-    int? semester,
+    String? semester,
     String? studentId,
   }) {
     return _transcriptService.fetchTranscripts(

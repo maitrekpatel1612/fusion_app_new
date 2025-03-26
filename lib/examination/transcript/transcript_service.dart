@@ -1,7 +1,7 @@
 // lib/examination/transcript/transcript_service.dart
 import 'dart:async';
 import 'transcript_model.dart';
-import '../grade_model.dart';
+import '../grades/grade_model.dart';
 import 'package:uuid/uuid.dart';
 
 class TranscriptService {
@@ -14,44 +14,33 @@ class TranscriptService {
   // Simulated in-memory storage for transcripts.
   final List<Transcript> _transcripts = [
     Transcript(
-      id: const Uuid().v4(),
       studentId: 'S1001',
       studentName: 'John Doe',
       programme: 'B.Tech',
       department: 'CSE',
-      semester: 6,
+      semester: '6',
+      academicYear: '2023-24',
+      spi: 8.67,
       grades: [
-        Grade(
-          studentId: 'S1001',
-          studentName: 'John Doe',
-          subject: 'Data Structures',
+        SubjectGrade(
+          code: 'CS301',
+          name: 'Data Structures',
+          credits: 4,
           grade: 'A',
-          programme: 'B.Tech',
-          department: 'CSE',
-          semester: 6,
         ),
-        Grade(
-          studentId: 'S1001',
-          studentName: 'John Doe',
-          subject: 'Algorithms',
+        SubjectGrade(
+          code: 'CS302',
+          name: 'Algorithms',
+          credits: 4,
           grade: 'B+',
-          programme: 'B.Tech',
-          department: 'CSE',
-          semester: 6,
         ),
-        Grade(
-          studentId: 'S1001',
-          studentName: 'John Doe',
-          subject: 'Operating Systems',
+        SubjectGrade(
+          code: 'CS303',
+          name: 'Operating Systems',
+          credits: 4,
           grade: 'A-',
-          programme: 'B.Tech',
-          department: 'CSE',
-          semester: 6,
         ),
       ],
-      courses: ['Data Structures', 'Algorithms', 'Operating Systems'],
-      gpa: 8.67,
-      generatedDate: DateTime.now(),
     ),
     // You can add more dummy transcripts here
   ];
@@ -60,7 +49,7 @@ class TranscriptService {
   Future<List<Transcript>> fetchTranscripts({
     String? programme,
     String? department,
-    int? semester,
+    String? semester,
     String? studentId,
   }) async {
     await Future.delayed(const Duration(seconds: 1)); // Simulate network delay
@@ -75,7 +64,7 @@ class TranscriptService {
         matches =
             matches && t.department.toLowerCase() == department.toLowerCase();
       }
-      if (semester != null) {
+      if (semester != null && semester.isNotEmpty) {
         matches = matches && t.semester == semester;
       }
       if (studentId != null && studentId.isNotEmpty) {
@@ -86,5 +75,26 @@ class TranscriptService {
     }).toList();
 
     return results;
+  }
+
+  Future<List<Map<String, dynamic>>> getTranscript({
+    required String academicYear,
+    required String spi,
+    required String id,
+    required List<String> courses,
+    required double gpa,
+    required String generatedDate,
+  }) async {
+    // Implementation
+    return [
+      {
+        'academicYear': academicYear,
+        'spi': spi,
+        'id': id,
+        'courses': courses,
+        'gpa': gpa,
+        'generatedDate': generatedDate,
+      }
+    ];
   }
 }

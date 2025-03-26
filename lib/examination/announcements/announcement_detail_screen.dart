@@ -23,7 +23,8 @@ class AnnouncementDetailScreen extends StatelessWidget {
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios, size: 20),
-          onPressed: () => Navigator.pushReplacementNamed(context, '/examination/browse'),
+          onPressed: () =>
+              Navigator.pushReplacementNamed(context, '/examination/browse'),
         ),
         elevation: 0,
         backgroundColor: Colors.transparent,
@@ -40,7 +41,8 @@ class AnnouncementDetailScreen extends StatelessWidget {
                   CircleAvatar(
                     radius: 30,
                     backgroundColor: Colors.blue[100],
-                    child: const Icon(Icons.person, size: 30, color: Colors.white),
+                    child:
+                        const Icon(Icons.person, size: 30, color: Colors.white),
                   ),
                   const SizedBox(width: 16),
                   Column(
@@ -56,65 +58,13 @@ class AnnouncementDetailScreen extends StatelessWidget {
                       const SizedBox(height: 4),
                       Row(
                         children: [
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                            decoration: BoxDecoration(
-                              color: Colors.blue.withOpacity(0.1),
-                              borderRadius: BorderRadius.circular(4),
-                            ),
-                            child: const Text(
-                              'Academics',
-                              style: TextStyle(
-                                color: Colors.blue,
-                                fontSize: 12,
-                              ),
-                            ),
-                          ),
+                          _buildTag('Academics'),
                           const SizedBox(width: 8),
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                            decoration: BoxDecoration(
-                              color: Colors.blue.withOpacity(0.1),
-                              borderRadius: BorderRadius.circular(4),
-                            ),
-                            child: const Text(
-                              'BTech',
-                              style: TextStyle(
-                                color: Colors.blue,
-                                fontSize: 12,
-                              ),
-                            ),
-                          ),
+                          _buildTag('BTech'),
                           const SizedBox(width: 8),
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                            decoration: BoxDecoration(
-                              color: Colors.blue.withOpacity(0.1),
-                              borderRadius: BorderRadius.circular(4),
-                            ),
-                            child: const Text(
-                              'CSE',
-                              style: TextStyle(
-                                color: Colors.blue,
-                                fontSize: 12,
-                              ),
-                            ),
-                          ),
+                          _buildTag('CSE'),
                           const SizedBox(width: 8),
-                          Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                            decoration: BoxDecoration(
-                              color: Colors.blue.withOpacity(0.1),
-                              borderRadius: BorderRadius.circular(4),
-                            ),
-                            child: const Text(
-                              '2023',
-                              style: TextStyle(
-                                color: Colors.blue,
-                                fontSize: 12,
-                              ),
-                            ),
-                          ),
+                          _buildTag('2023'),
                         ],
                       ),
                     ],
@@ -123,16 +73,16 @@ class AnnouncementDetailScreen extends StatelessWidget {
                   Text(
                     '${DateFormat('h:mm').format(date)} PM',
                     style: TextStyle(
-                      color: Colors.grey[600],
+                      color: Colors.grey.withAlpha(153),
                       fontSize: 14,
                     ),
                   ),
                 ],
               ),
             ),
-            
+
             const SizedBox(height: 24),
-            
+
             // Subject line
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -144,9 +94,9 @@ class AnnouncementDetailScreen extends StatelessWidget {
                 ),
               ),
             ),
-            
+
             const SizedBox(height: 24),
-            
+
             // Content
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -193,13 +143,13 @@ class AnnouncementDetailScreen extends StatelessWidget {
                     'Associate Professor, Department of Physics',
                     style: TextStyle(
                       fontSize: 16,
-                      color: Colors.grey[700],
+                      color: Colors.grey.withAlpha(179),
                     ),
                   ),
                 ],
               ),
             ),
-            
+
             const SizedBox(height: 40),
           ],
         ),
@@ -224,4 +174,21 @@ class AnnouncementDetailScreen extends StatelessWidget {
       ),
     );
   }
-} 
+
+  Widget _buildTag(String text) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      decoration: BoxDecoration(
+        color: Colors.blue.withAlpha(25),
+        borderRadius: BorderRadius.circular(4),
+      ),
+      child: Text(
+        text,
+        style: const TextStyle(
+          color: Colors.blue,
+          fontSize: 12,
+        ),
+      ),
+    );
+  }
+}

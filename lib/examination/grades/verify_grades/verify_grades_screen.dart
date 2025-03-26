@@ -1,23 +1,33 @@
 // lib/examination/grades/verify_grades/verify_grades_screen.dart
 import 'package:flutter/material.dart';
-import '../../grades_service.dart';
-import '../../grade_model.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 class VerifyGradesScreen extends StatefulWidget {
   const VerifyGradesScreen({super.key});
 
   @override
-  _VerifyGradesScreenState createState() => _VerifyGradesScreenState();
+  VerifyGradesScreenState createState() => VerifyGradesScreenState();
 }
 
-class _VerifyGradesScreenState extends State<VerifyGradesScreen> {
+class VerifyGradesScreenState extends State<VerifyGradesScreen> {
   String? _selectedCourse;
   String? _selectedAcademicYear;
   bool _showResults = false;
-  
-  final List<String> _courses = ['Select Select', 'CS101', 'CS102', 'CS103', 'CS104', 'CS2003'];
-  final List<String> _academicYears = ['Select Academic Year', '2021-2022', '2022-2023', '2023-2024'];
+
+  final List<String> _courses = [
+    'Select Select',
+    'CS101',
+    'CS102',
+    'CS103',
+    'CS104',
+    'CS2003'
+  ];
+  final List<String> _academicYears = [
+    'Select Academic Year',
+    '2021-2022',
+    '2022-2023',
+    '2023-2024'
+  ];
 
   // Sample data for the table
   final List<Map<String, dynamic>> _gradesData = [
@@ -101,7 +111,7 @@ class _VerifyGradesScreenState extends State<VerifyGradesScreen> {
     setState(() {
       _showResults = true;
     });
-    
+
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Grades loaded successfully')),
     );
@@ -193,7 +203,7 @@ class _VerifyGradesScreenState extends State<VerifyGradesScreen> {
                   ),
                 ),
               ),
-              
+
               // Course dropdown
               const Text(
                 'Course*',
@@ -211,7 +221,8 @@ class _VerifyGradesScreenState extends State<VerifyGradesScreen> {
                 child: DropdownButtonFormField<String>(
                   value: _selectedCourse ?? 'Select Select',
                   decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     border: InputBorder.none,
                   ),
                   items: _courses.map((course) {
@@ -229,7 +240,7 @@ class _VerifyGradesScreenState extends State<VerifyGradesScreen> {
                 ),
               ),
               const SizedBox(height: 16),
-              
+
               // Academic Year dropdown
               const Text(
                 'Academic Year*',
@@ -247,7 +258,8 @@ class _VerifyGradesScreenState extends State<VerifyGradesScreen> {
                 child: DropdownButtonFormField<String>(
                   value: _selectedAcademicYear ?? 'Select Academic Year',
                   decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     border: InputBorder.none,
                   ),
                   items: _academicYears.map((year) {
@@ -265,7 +277,7 @@ class _VerifyGradesScreenState extends State<VerifyGradesScreen> {
                 ),
               ),
               const SizedBox(height: 24),
-              
+
               // Search button
               SizedBox(
                 width: double.infinity,
@@ -280,22 +292,35 @@ class _VerifyGradesScreenState extends State<VerifyGradesScreen> {
                   child: const Text('Search'),
                 ),
               ),
-              
+
               if (_showResults) ...[
                 const SizedBox(height: 32),
-                
+
                 // Grades table
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: DataTable(
-                    headingRowColor: WidgetStateProperty.all(Colors.blue.shade50),
+                    headingRowColor:
+                        WidgetStateProperty.all(Colors.blue.shade50),
                     columns: const [
-                      DataColumn(label: Text('Student ID', style: TextStyle(fontWeight: FontWeight.bold))),
-                      DataColumn(label: Text('Batch', style: TextStyle(fontWeight: FontWeight.bold))),
-                      DataColumn(label: Text('Semester', style: TextStyle(fontWeight: FontWeight.bold))),
-                      DataColumn(label: Text('Course ID', style: TextStyle(fontWeight: FontWeight.bold))),
-                      DataColumn(label: Text('Remarks', style: TextStyle(fontWeight: FontWeight.bold))),
-                      DataColumn(label: Text('Grades', style: TextStyle(fontWeight: FontWeight.bold))),
+                      DataColumn(
+                          label: Text('Student ID',
+                              style: TextStyle(fontWeight: FontWeight.bold))),
+                      DataColumn(
+                          label: Text('Batch',
+                              style: TextStyle(fontWeight: FontWeight.bold))),
+                      DataColumn(
+                          label: Text('Semester',
+                              style: TextStyle(fontWeight: FontWeight.bold))),
+                      DataColumn(
+                          label: Text('Course ID',
+                              style: TextStyle(fontWeight: FontWeight.bold))),
+                      DataColumn(
+                          label: Text('Remarks',
+                              style: TextStyle(fontWeight: FontWeight.bold))),
+                      DataColumn(
+                          label: Text('Grades',
+                              style: TextStyle(fontWeight: FontWeight.bold))),
                     ],
                     rows: _gradesData.map((data) {
                       return DataRow(
@@ -311,9 +336,9 @@ class _VerifyGradesScreenState extends State<VerifyGradesScreen> {
                     }).toList(),
                   ),
                 ),
-                
+
                 const SizedBox(height: 32),
-                
+
                 // Grade distribution legend
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -329,9 +354,9 @@ class _VerifyGradesScreenState extends State<VerifyGradesScreen> {
                     _buildLegendItem('F', Colors.orange),
                   ],
                 ),
-                
+
                 const SizedBox(height: 24),
-                
+
                 // Pie chart
                 SizedBox(
                   height: 200,
@@ -374,9 +399,9 @@ class _VerifyGradesScreenState extends State<VerifyGradesScreen> {
                     ),
                   ),
                 ),
-                
+
                 const SizedBox(height: 32),
-                
+
                 // Action buttons
                 Row(
                   children: [
@@ -433,7 +458,7 @@ class _VerifyGradesScreenState extends State<VerifyGradesScreen> {
       ),
     );
   }
-  
+
   Widget _buildLegendItem(String label, Color color) {
     return Row(
       children: [

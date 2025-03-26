@@ -8,7 +8,8 @@ class GenerateTranscriptScreen extends StatefulWidget {
   const GenerateTranscriptScreen({super.key});
 
   @override
-  State<GenerateTranscriptScreen> createState() => _GenerateTranscriptScreenState();
+  State<GenerateTranscriptScreen> createState() =>
+      _GenerateTranscriptScreenState();
 }
 
 class _GenerateTranscriptScreenState extends State<GenerateTranscriptScreen> {
@@ -86,7 +87,7 @@ class _GenerateTranscriptScreenState extends State<GenerateTranscriptScreen> {
         course: _selectedCourse!,
         year: _selectedYear!,
       );
-      
+
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Template saved to: ${file.path}')),
@@ -105,6 +106,9 @@ class _GenerateTranscriptScreenState extends State<GenerateTranscriptScreen> {
   }
 
   Future<void> _generateTranscript() async {
+    if (!mounted) return;
+    final context = this.context; // Store context before async gap
+
     if (!_formKey.currentState!.validate() || _parsedData == null) return;
 
     setState(() => _isLoading = true);
@@ -189,7 +193,9 @@ class _GenerateTranscriptScreenState extends State<GenerateTranscriptScreen> {
                         setState(() => _selectedYear = value);
                       },
                       validator: (value) {
-                        if (value == null) return 'Please select an academic year';
+                        if (value == null) {
+                          return 'Please select an academic year';
+                        }
                         return null;
                       },
                     ),
@@ -245,7 +251,8 @@ class _GenerateTranscriptScreenState extends State<GenerateTranscriptScreen> {
                                   physics: const NeverScrollableScrollPhysics(),
                                   itemCount: semester['subjects'].length,
                                   itemBuilder: (context, subIndex) {
-                                    final subject = semester['subjects'][subIndex];
+                                    final subject =
+                                        semester['subjects'][subIndex];
                                     return ListTile(
                                       title: Text(subject['name']),
                                       trailing: Text(
@@ -278,4 +285,4 @@ class _GenerateTranscriptScreenState extends State<GenerateTranscriptScreen> {
       ),
     );
   }
-} 
+}

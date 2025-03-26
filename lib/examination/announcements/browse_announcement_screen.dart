@@ -11,12 +11,12 @@ class BrowseAnnouncementScreen extends StatefulWidget {
   const BrowseAnnouncementScreen({super.key});
 
   @override
-  State<BrowseAnnouncementScreen> createState() => _BrowseAnnouncementScreenState();
+  State<BrowseAnnouncementScreen> createState() =>
+      _BrowseAnnouncementScreenState();
 }
 
 class _BrowseAnnouncementScreenState extends State<BrowseAnnouncementScreen> {
   late Future<List<Announcement>> _announcementsFuture;
-  bool _isLoading = false;
 
   @override
   void initState() {
@@ -25,7 +25,6 @@ class _BrowseAnnouncementScreenState extends State<BrowseAnnouncementScreen> {
   }
 
   Future<void> _loadAnnouncements() async {
-    setState(() => _isLoading = true);
     try {
       _announcementsFuture = AnnouncementService().fetchAnnouncements();
     } catch (e) {
@@ -34,12 +33,11 @@ class _BrowseAnnouncementScreenState extends State<BrowseAnnouncementScreen> {
           SnackBar(content: Text('Error loading announcements: $e')),
         );
       }
-    } finally {
-      setState(() => _isLoading = false);
     }
   }
 
-  Future<void> _openAttachment(String? attachmentPath, String? attachmentName) async {
+  Future<void> _openAttachment(
+      String? attachmentPath, String? attachmentName) async {
     if (attachmentPath == null || attachmentName == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('No attachment available')),
@@ -106,7 +104,8 @@ class _BrowseAnnouncementScreenState extends State<BrowseAnnouncementScreen> {
               if (announcement.attachmentPath != null) ...[
                 const SizedBox(height: 16),
                 OutlinedButton.icon(
-                  onPressed: () => _openAttachment(announcement.attachmentPath, announcement.attachmentName),
+                  onPressed: () => _openAttachment(
+                      announcement.attachmentPath, announcement.attachmentName),
                   icon: const Icon(Icons.attachment),
                   label: Text(announcement.attachmentName ?? 'View Attachment'),
                 ),
@@ -207,8 +206,9 @@ class _BrowseAnnouncementScreenState extends State<BrowseAnnouncementScreen> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.pushNamed(context, '/examination/createAnnouncement')
-            .then((_) => _loadAnnouncements()),
+        onPressed: () =>
+            Navigator.pushNamed(context, '/examination/createAnnouncement')
+                .then((_) => _loadAnnouncements()),
         child: const Icon(Icons.add),
       ),
     );
